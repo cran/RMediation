@@ -8,12 +8,12 @@ function(p, mu.x, mu.y, se.x, se.y, rho=0, lower.tail=TRUE){
     s.a.on.b <- sqrt(1-rho^2) #SD of b conditional on a
     if (lower.tail==FALSE) {
         u0<- mu.a*mu.b +6*se.ab #upper
-        l0=mu.a*mu.b
+        l0=mu.a*mu.b- 6*se.ab
         alpha<- 1- p
     }
     else{
         l0<-mu.a*mu.b - 6*se.ab #lower
-        u0<-mu.a*mu.b
+        u0<-mu.a*mu.b + 6*se.ab
         alpha<- p
     }
     gx=function(x, z) {

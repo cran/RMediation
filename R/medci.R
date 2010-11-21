@@ -35,22 +35,19 @@ medci <-function(mu.x,mu.y,se.x,se.y,rho=0,alpha=.05,type="prodclin", plot=FALSE
 	else
           xrange<-round(cbind(seq(min1,0,length=3),seq(0,max1,length=3)),1)
         xy <- xy[xy>min1 & xy<max1]
-        plot(density(xy),xlab=expression(paste("Product ", (italic(xy)))),ylab="Density",axes=FALSE,xlim=c(min1,max1),main="")
+        plot(density(xy),xlab=expression(paste("Product ", (italic(xy)))),ylab="Density",axes=FALSE,xlim=c(min1,max1),main="",...)
         axis(1,xrange);axis(2)
         smidge <- par("cin")*abs(par("tcl"))
-        text(max1-(max1-min1)/7,(par("usr")[4]),pos=1, bquote(mu== .(round(mu.xy,3)) ))
-        text(max1-(max1-min1)/7,(par("usr")[4]-1.5*par("cxy")[2]),pos=1, bquote(sigma== .(round(se.xy,3)) ))
+        text(max1-(max1-min1)/7,(par("usr")[4]),pos=1, bquote(mu== .(round(mu.xy,3)) ),...)
+        text(max1-(max1-min1)/7,(par("usr")[4]-1.5*par("cxy")[2]),pos=1, bquote(sigma== .(round(se.xy,3)) ),...)
         if(plotCI){
-          yci<-par("usr")[3]+diff(par("usr")[3:4])/5
+          yci<-par("usr")[3]+diff(par("usr")[3:4])/25
           yci<-0
-          ##smidge <- par("cin")*abs(par("tcl"))
-          MeekerCI=medciMeeker(mu.x, mu.y, se.x, se.y, rho, alpha)
-          arrows(MeekerCI[1],yci,MeekerCI[2],yci,length=smidge,angle=90,code=3,lwd=2)
-          points(mu.xy,yci,pch=19,cex=1.5)
-          ##text(MeekerCI[1],yci,paste(round(MeekerCI[1],3)),pos=3,offset=1)
-          ##text(MeekerCI[2],yci,paste(round(MeekerCI[2],3)),pos=3,offset=1)
-          text(max1-(max1-min1)/7,(par("usr")[4]-3*par("cxy")[2]),pos=1, paste("LL=",round(MeekerCI[1],3)))
-          text(max1-(max1-min1)/7,(par("usr")[4]-4.5*par("cxy")[2]),pos=1, paste("UL=",round(MeekerCI[2],3)))
+          MedCI <- medciProdclin(mu.x, mu.y, se.x, se.y, rho, alpha)
+          arrows(MedCI[1],yci,MedCI[2],yci,length=smidge,angle=90,code=3,cex=1.5,...)
+          points(mu.xy,yci,pch=19,cex=1.5,...)
+          text(max1-(max1-min1)/7,(par("usr")[4]-3*par("cxy")[2]),pos=1, paste("LL=",round(MedCI[1],3)),...)
+          text(max1-(max1-min1)/7,(par("usr")[4]-4.5*par("cxy")[2]),pos=1, paste("UL=",round(MedCI[2],3)),...)
         }
         ##print(xyplot)
       }

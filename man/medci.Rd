@@ -81,7 +81,8 @@ plot=FALSE, plotCI=FALSE, n.mc = 1e+05, ...)
     Methods}, \bold{43}, 692--700. doi:10.3758/s13428-011-0076-x
 }
 \author{
-Davood Tofighi <dtofighi@psych.gatech.edu> and David P. MacKinnon <davidpm@asu.edu>
+Davood Tofighi \email{dtofighi@psych.gatech.edu} and
+  David P. MacKinnon \email{davidpm@asu.edu}
 
 }
 \note{
