@@ -7,8 +7,6 @@ pprodnormalMeeker<- function(q, mu.x, mu.y, se.x, se.y, rho=0, lower.tail=TRUE){
         ##Defining the integrand (Meeker & Escobar, 1995, p. 273)
         mu.a.on.b <- mu.a+rho*(x-mu.b) #mean of a conditional on b
         integ <- pnorm(sign(x)*(z / x-mu.a.on.b)/s.a.on.b)*dnorm(x-mu.b)
-        ## alternatively, I could write the integrand as follows:
-        ## integ <- pnorm(sign(x)*(z/x-mu.a.on.b),mean=0, sd=s.a.on.b)*dnorm(x,mean=mu.b, sd=1)
         return(integ)
     }
     ans<-integrate(gx,lower=-Inf,upper=Inf, z=q )

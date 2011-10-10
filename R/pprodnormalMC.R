@@ -1,6 +1,5 @@
 pprodnormalMC<-
   function(q, mu.x, mu.y, se.x, se.y, rho=0, lower.tail=TRUE, n.mc=1e7){
-    library.dynam("RMediation",PACKAGE="RMediation")
     mu.x <- mu.x/se.x
     mu.y <- mu.y/se.y
     q <- q/(se.x*se.y)

@@ -1558,11 +1558,17 @@ END MODULE adapt_quad
 
 MODULE passer
 ! Replaces COMMON /passer/
-USE constants_NSWC
-IMPLICIT NONE
-
-REAL (dp), PUBLIC, SAVE :: xmuyp, xmuxp, zp, rhop, rootr
+	USE constants_NSWC
+	IMPLICIT NONE
+	REAL (dp), PUBLIC, SAVE :: xmuyp, xmuxp, zp, rhop, rootr
 END MODULE passer
+
+MODULE pass_q
+	USE constants_NSWC
+	IMPLICIT NONE
+	REAL (dp), PUBLIC, SAVE :: xmux, xmuy, rho, target_p, abserr
+	INTEGER, PUBLIC, SAVE ::ier, last
+end module pass_q
 
 
 !----------------------------------------------------------------
@@ -2062,7 +2068,7 @@ SUBROUTINE test_fnprod (a, b, sea, seb, rho, alpha, lowz, highz, ier, abserr, la
   INTEGER, INTENT(OUT), OPTIONAL   :: last
 
   !!Local Variables
-  REAL (dp) :: answer, xmux, xmuy, z, za, zb, lper, uper, lstart, ustart,diff, absdiff, iterate, u0,l0,p_l,p_u
+  REAL (dp) :: answer, xmux, xmuy, z, za, zb, lper, uper, lstart, ustart,diff, iterate, u0,l0,p_l,p_u
   REAL (dp), PARAMETER :: root_eps=1d-12
   INTEGER, parameter :: max_iter=10000
 
@@ -2221,24 +2227,24 @@ SUBROUTINE test_fnprod (a, b, sea, seb, rho, alpha, lowz, highz, ier, abserr, la
 !!$904 STOP 'Bisection failed!'
 END SUBROUTINE test_fnprod
 
+!----------------------------------------
+! This function is to compute quantile and is passed to zeroin function
+!----------------------------------------
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! Quantile for the distribution of the product
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-SUBROUTINE quantile_prodclin (perc,a, b, sea, seb, rho, quantile, ier, abserr, last)
+FUNCTION fxprod1 (z) RESULT(answer)
+! code by Davood Tofighi and Vanessa Thompson
+!Date 7-26-2011
 USE constants_NSWC
+USE pass_q
 IMPLICIT NONE
-REAL (dp), INTENT(IN)            :: a, b , sea, seb, rho, perc
-REAL (dp), INTENT(OUT)           :: quantile
-INTEGER, INTENT(OUT)             :: ier
-REAL (dp), INTENT(OUT), OPTIONAL :: abserr
-INTEGER, INTENT(OUT), OPTIONAL   :: last
+    REAL (dp), INTENT(IN)            :: z 
+    REAL (dp)           :: answer
 
-!!Local Variables
-REAL (dp) :: answer, xmux, xmuy, z, za, zb, lstart, ustart,diff, absdiff, iterate, u0,l0,p_l,p_u
-REAL (dp), PARAMETER :: root_eps=1.0E-10_dp
-INTEGER, parameter :: max_iter=10000
+!local variable
+    REAL(dp) :: Fz
+! z is the quantile and fprod is a function of z
+!target_p is a target percetile which will be passed on to zeroin
+!answer=F(z)-target_p
 
 INTERFACE
   SUBROUTINE fnprod (xmux, xmuy, rho, z, answer, ier, abserr, last)
@@ -2253,85 +2259,279 @@ INTERFACE
     INTEGER, INTENT(OUT), OPTIONAL   :: last
   END SUBROUTINE fnprod
 END INTERFACE
-  
+
+call fnprod (xmux, xmuy, rho, z, Fz , ier, abserr, last)
+answer=Fz-target_p;
+
+END FUNCTION fxprod1
+!!!!-------------------------------
+! END OF function fxprod1
+!!!--------------------------------
+
+!!!-----------------
+! function of zero in
+!--------------------
+FUNCTION zeroin(f, ax, bx, aerr, rerr) RESULT(fn_val)
+ 
+! Code converted using TO_F90 by Alan Miller
+! Date: 2003-07-14  Time: 12:32:54
+ 
+!-----------------------------------------------------------------------
+
+!         FINDING A ZERO OF THE FUNCTION F(X) IN THE INTERVAL (AX,BX)
+
+!                       ------------------------
+
+!  INPUT...
+
+!  F      FUNCTION SUBPROGRAM WHICH EVALUATES F(X) FOR ANY X IN THE
+!         CLOSED INTERVAL (AX,BX).  IT IS ASSUMED THAT F IS CONTINUOUS,
+!         AND THAT F(AX) AND F(BX) HAVE DIFFERENT SIGNS.
+!  AX     LEFT ENDPOINT OF THE INTERVAL
+!  BX     RIGHT ENDPOINT OF THE INTERVAL
+!  AERR   THE ABSOLUTE ERROR TOLERANCE TO BE SATISFIED
+!  RERR   THE RELATIVE ERROR TOLERANCE TO BE SATISFIED
+
+!  OUTPUT...
+
+!         ABCISSA APPROXIMATING A ZERO OF F IN THE INTERVAL (AX,BX)
+
+!-----------------------------------------------------------------------
+!  ZEROIN IS A SLIGHTLY MODIFIED TRANSLATION OF THE ALGOL PROCEDURE
+!  ZERO GIVEN BY RICHARD BRENT IN ALGORITHMS FOR MINIMIZATION WITHOUT
+!  DERIVATIVES, PRENTICE-HALL, INC. (1973).
+!-----------------------------------------------------------------------
+USE pass_q
+USE constants_NSWC
+IMPLICIT NONE
+!INTEGER, PARAMETER  :: dp = SELECTED_REAL_KIND(14, 60)
+
+REAL (dp), INTENT(IN)  :: ax
+REAL (dp), INTENT(IN)  :: bx
+REAL (dp), INTENT(IN)  :: aerr
+REAL (dp), INTENT(IN)  :: rerr
+REAL (dp)              :: fn_val
+
+! EXTERNAL f
+INTERFACE
+  FUNCTION f(z) RESULT(answer)
+    USE constants_NSWC
+    USE pass_q
+    IMPLICIT NONE
+!    INTEGER, PARAMETER  :: dp = SELECTED_REAL_KIND(14, 60)
+    REAL (dp), INTENT(IN)  :: z
+    REAL (dp)              :: answer
+  END FUNCTION f
+END INTERFACE
+
+REAL (dp)  :: a, b, c, d, e, eps, fa, fb, fc, tol, xm, p, q, r, s, atol, rtol
+
+!  COMPUTE EPS, THE RELATIVE MACHINE PRECISION
+
+eps = EPSILON(0.0_dp)
+
+! INITIALIZATION
+
+a = ax
+b = bx
+fa = f(a)
+fb = f(b)
+atol = 0.5 * aerr
+rtol = MAX(0.5_dp*rerr, 2.0_dp*eps)
+
+! BEGIN STEP
+
+10 c = a
+fc = fa
+d = b - a
+e = d
+20 IF (ABS(fc) < ABS(fb)) THEN
+  a = b
+  b = c
+  c = a
+  fa = fb
+  fb = fc
+  fc = fa
+END IF
+
+! CONVERGENCE TEST
+
+tol = rtol * MAX(ABS(b),ABS(c)) + atol
+xm = 0.5 * (c-b)
+IF (ABS(xm) > tol) THEN
+  IF (fb /= 0.0) THEN
+    
+! IS BISECTION NECESSARY
+    
+    IF (ABS(e) >= tol) THEN
+      IF (ABS(fa) > ABS(fb)) THEN
+        
+! IS QUADRATIC INTERPOLATION POSSIBLE
+        
+        IF (a == c) THEN
+          
+! LINEAR INTERPOLATION
+          
+          s = fb / fc
+          p = (c-b) * s
+          q = 1.0 - s
+        ELSE
+          
+! INVERSE QUADRATIC INTERPOLATION
+          
+          q = fa / fc
+          r = fb / fc
+          s = fb / fa
+          p = s * ((c-b)*q*(q-r)-(b-a)*(r-1.0))
+          q = (q-1.0) * (r-1.0) * (s-1.0)
+        END IF
+        
+! ADJUST SIGNS
+        
+        IF (p > 0.0) q = -q
+        p = ABS(p)
+        
+! IS INTERPOLATION ACCEPTABLE
+        
+        IF (2.0*p < (3.0*xm*q-ABS(tol*q))) THEN
+          IF (p < ABS(0.5*e*q)) THEN
+            e = d
+            d = p / q
+            GO TO 30
+          END IF
+        END IF
+      END IF
+    END IF
+    
+! BISECTION
+    
+    d = xm
+    e = d
+    
+! COMPLETE STEP
+    
+    30 a = b
+    fa = fb
+    IF (ABS(d) > tol) b = b + d
+    IF (ABS(d) <= tol) b = b + SIGN(tol,xm)
+    fb = f(b)
+    IF (fb*(fc/ABS(fc)) > 0.0) GO TO 10
+    GO TO 20
+  END IF
+END IF
+
+! DONE
+
+fn_val = b
+RETURN
+END FUNCTION zeroin
+!-------------------------
+! End of function zeroin
+!---------------------------
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Quantile for the distribution of the product
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+subroutine quantile_prodclin (perc,a, b, sea, seb, rho1, answer , ier1, abserr1, last1)
+USE constants_NSWC
+USE pass_q
+IMPLICIT NONE
+REAL (dp), intent(in)           :: a, b , sea, seb,  perc, rho1
+REAL (dp), intent(out)           :: answer
+INTEGER, INTENT(OUT)             :: ier1
+real (dp), INTENT(OUT), OPTIONAL :: abserr1
+INTEGER, INTENT(OUT), OPTIONAL   :: last1
+
+!!Local Variables
+REAL (dp) ::  za, zb, lstart, ustart,rerr, eps , se_ab
+REAL (dp), PARAMETER :: aerr=1.0E-10_dp
+INTEGER, parameter :: max_iter=10000
+INTEGER ::iter
+interface
+FUNCTION fxprod1 (z) RESULT(answer)
+! code by Davood Tofighi and Vanessa Thompson
+!Date 7-26-2011
+USE constants_NSWC
+USE pass_q
+    REAL (dp), INTENT(IN)            :: z 
+    REAL (dp)           :: answer
+end function fxprod1
+end interface  
+
+interface
+FUNCTION zeroin(f, ax, bx, aerr, rerr) RESULT(fn_val)
+USE pass_q
+USE constants_NSWC
+REAL (dp), INTENT(IN)  :: ax
+REAL (dp), INTENT(IN)  :: bx
+REAL (dp), INTENT(IN)  :: aerr
+REAL (dp), INTENT(IN)  :: rerr
+REAL (dp)              :: fn_val
+INTERFACE
+  FUNCTION f(z) RESULT(answer)
+    USE constants_NSWC
+    USE pass_q
+    IMPLICIT NONE
+    REAL (dp), INTENT(IN)  :: z
+    REAL (dp)              :: answer
+  END FUNCTION f
+END INTERFACE
+END function
+end interface
+
+!print *, "enter p:"
+!read (*,*) perc
+!print *, "enter a:"
+!read (*,*) a
+!print *, "enter b:"
+!read (*,*) b
+!print *, "se a:"
+!read (*,*) sea
+!print *, "se b:"
+!read (*,*) seb
+!print *, "rho:"
+!read (*,*) r
+
+eps = EPSILON(0.0_dp)
+rerr=2.0_dp*eps
+
 za = a/sea
 zb = b/seb
-xmux = za
+!from pass_q
+xmux = za 
 xmuy = zb
+target_p=perc
+rho=rho1
+ier1=ier
+last1=last
+abserr1=abserr
 
-!Loop for the quantile
-z=-99999
-iterate=0
-diff=1
-lstart=(xmux*xmuy+rho)-6*SQRT(xmux*xmux+xmuy*xmuy+2*xmux*xmuy*rho+1)
-ustart=(xmux*xmuy+rho)+6*SQRT(xmux*xmux+xmuy*xmuy+2*xmux*xmuy*rho+1)
-l0=lstart
-u0=ustart
-CALL fnprod (xmux, xmuy, rho, l0, p_l, ier, abserr, last)
-CALL fnprod (xmux, xmuy, rho, u0, p_u, ier, abserr, last)
-p_l=p_l-perc
-p_u=p_u-perc
-DO WHILE (p_l>0) 
-   iterate=iterate+1
-   l0=l0-0.5d0
-   CALL fnprod (xmux, xmuy, rho, l0, p_l, ier, abserr, last)
-   p_l=p_l-perc
-   IF (iterate==max_iter) THEN
-      quantile=-700
-      diff=root_eps/10
-      p_l=-1
-      p_u=1
+se_ab=SQRT(xmux*xmux+xmuy*xmuy+2*xmux*xmuy*rho+1)
+lstart=(xmux*xmuy+rho)-6*se_ab
+ustart=(xmux*xmuy+rho)+6*se_ab
+!initial upper bound
+iter=0
+do while (fxprod1(ustart)<0)
+iter=iter+1
+   IF (iter==max_iter) THEN
+       answer=-703
+   stop 'Initial upper bound cannot be found'
    END IF
-END DO
-iterate=0
-DO WHILE (p_u<0) 
-   iterate=iterate+1
-   u0=u0+0.5d0
-   CALL fnprod (xmux, xmuy, rho, u0, p_u, ier, abserr, last)
-   p_u=p_u-perc
-   IF (iterate==max_iter) THEN
-      quantile=-701
-      diff=root_eps/10
-      p_u=1
+ustart=ustart+.5*se_ab
+end do
+
+! initial lower bound
+iter=0
+do while (fxprod1(lstart)>0)
+iter=iter+1
+   IF (iter==max_iter) THEN
+      answer=-703
+   stop 'Initial lower bound cannot be found'
    END IF
-END DO
-iterate=0
+lstart=lstart-.5*se_ab
+end do
 
-DO WHILE(diff>root_eps)
-   iterate=iterate+1
-   z=(u0+l0)/2
-   CALL fnprod (xmux, xmuy, rho, l0, p_l, ier, abserr, last)
-   CALL fnprod (xmux, xmuy, rho, u0, p_u, ier, abserr, last)
-   CALL fnprod (xmux, xmuy, rho, z, answer, ier, abserr, last)
-   p_l=p_l-perc
-   p_u=p_u-perc
-   answer=answer-perc
-   IF ((p_l*p_u)>0) THEN
-      quantile=-702
-      diff=root_eps/10
-      !! GOTO 905
-   ELSE IF (iterate>max_iter) THEN
-      quantile=-703
-      diff=root_eps/10
-      !!GOTO 800
-   ELSE IF (ABS(answer)<root_eps) THEN
-      diff=root_eps/10
-      quantile=z*sea*seb
-   ELSE IF ((p_l*answer)<0) THEN
-      u0=z
-      diff=ABS(answer)
-   ELSE
-      l0=z
-      diff=ABS(answer)
-   END IF
-   
-END DO
-
-
-!!$800 STOP 'maximum iteration reached!'
-!!$900 STOP 'No initial valid lower bound interval for lower tail!'
-!!$901 STOP 'No initial valid upper bound interval for lower tail!'
-!!$902 STOP 'No initial valid lower bound interval for upper tail!'
-!!$903 STOP 'No initial valid upper bound interval for upper tail!'
-!!$904 STOP 'Bisection failed!'
-END SUBROUTINE quantile_prodclin
+answer=zeroin(fxprod1,lstart,ustart,aerr, rerr)
+answer=answer*sea*seb
+END subroutine quantile_prodclin
