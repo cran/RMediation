@@ -1,4 +1,4 @@
-0e7bb4f0034aab97e72f1eec1e454082 *DESCRIPTION
+aa5f4b799044c6564d6fa9f3dc85ddb7 *DESCRIPTION
 4c834138fb0d8fc83f3baf62d5b913f4 *NAMESPACE
 a1f9f5a5d6c2046ff3de3c42098f8fe7 *R/medci.R
 d50021fb24db8023780323dcb4b5e3c2 *R/medciMC.R
@@ -17,4 +17,4 @@ dfda2c712a47c9b6b3e6ac132ef5b1fb *R/qprodnormalProdclin.R
 85bb34f4cc490956a1a3188a959e3fdd *man/medci.Rd
 050117d94819e89f88b46adb8843e701 *man/pprodnormal.Rd
 69328058b96f9a5a04da696c688a938d *man/qprodnormal.Rd
-9e728bf1784bca4cb65fc857a51143a4 *src/RMediation.f95
+3b34dcb4f08d4f6a0b63e3c2d508afdb *src/RMediation.f95

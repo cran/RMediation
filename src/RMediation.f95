@@ -2514,24 +2514,30 @@ ustart=(xmux*xmuy+rho)+6*se_ab
 iter=0
 do while (fxprod1(ustart)<0)
 iter=iter+1
-   IF (iter==max_iter) THEN
+  IF (iter==max_iter) THEN  !modified 3/4/2013 Davood
        answer=-703
-   stop 'Initial upper bound cannot be found'
-   END IF
+       EXIT
+   !stop 'Initial upper bound cannot be found'
+  END IF
 ustart=ustart+.5*se_ab
 end do
 
 ! initial lower bound
+IF (answer/=-703) THEN !modified 3/4/2013 Davood
 iter=0
 do while (fxprod1(lstart)>0)
 iter=iter+1
-   IF (iter==max_iter) THEN
+   IF (iter==max_iter) THEN !modified 3/4/2013 Davood
       answer=-703
-   stop 'Initial lower bound cannot be found'
-   END IF
+      EXIT
+   !stop 'Initial lower bound cannot be found'
+  END IF
 lstart=lstart-.5*se_ab
 end do
+end IF
 
+IF (answer/=-703) THEN  !modified 3/4/2013 Davood
 answer=zeroin(fxprod1,lstart,ustart,aerr, rerr)
 answer=answer*sea*seb
+END IF
 END subroutine quantile_prodclin
