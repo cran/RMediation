@@ -1,8 +1,8 @@
 Package: RMediation
 Type: Package
 Title: An R Package for Mediation Analysis Confidence Intervals
-Version: 1.1
-Date: 2010-07-02
+Version: 1.1.2
+Date: 2013-06-12
 Author: Davood Tofighi <dtofighi@psych.gatech.edu> and David P.
         MacKinnon <davidpm@asu.edu>
 Maintainer: Davood Tofighi <dtofighi@psych.gatech.edu>
@@ -13,6 +13,7 @@ Description: RMediation provides functions to compute confidence
 License: GPL-2
 URL: http://amp.gatech.edu/RMediation
         http://www.public.asu.edu/~davidpm/ripl/Prodclin
-Packaged: 2011-10-09 22:52:42 UTC; dtofighi
+Packaged: 2013-09-11 22:12:22 UTC; root
+NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2011-10-10 05:48:44
+Date/Publication: 2013-09-12 23:44:53
