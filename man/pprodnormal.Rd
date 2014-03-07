@@ -77,8 +77,9 @@ type="prodclin", n.mc=1e5)
     Methods}, \bold{43}, 692--700. doi:10.3758/s13428-011-0076-x
 }
 \author{
-Davood Tofighi <dtofighi@psych.gatech.edu> and David P. MacKinnon <davidpm@asu.edu>
-
+Davood Tofighi \email{dtofighi@psych.gatech.edu} and
+  David P. MacKinnon \email{davidpm@asu.edu}
+ 
 }
 \note{
   %%  ~~further notes~~

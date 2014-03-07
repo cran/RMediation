@@ -1,19 +1,20 @@
 Package: RMediation
 Type: Package
 Title: An R Package for Mediation Analysis Confidence Intervals
-Version: 1.1.2
-Date: 2013-06-12
-Author: Davood Tofighi <dtofighi@psych.gatech.edu> and David P.
-        MacKinnon <davidpm@asu.edu>
+Version: 1.1.3
+Date: 2010-11-21
+Author: Davood Tofighi <dtofighi@psych.gatech.edu> and David P. MacKinnon
+    <davidpm@asu.edu>
 Maintainer: Davood Tofighi <dtofighi@psych.gatech.edu>
-Depends: R (>= 2.11.0), base
-Description: RMediation provides functions to compute confidence
-        intervals, percentiles and quantiles for the mediated effect
-        and the product of two normal random variables
+Depends: R (>= 2.11.0), base, MASS, lavaan, e1071
+Description: RMediation package provides functions to compute confidence
+    intervals (CIs) for a well-defined nonlinear function of the model
+    parameters (e.g., product of k coefficients) in single--level and
+    multilevel structural equation models.
 License: GPL-2
 URL: http://amp.gatech.edu/RMediation
         http://www.public.asu.edu/~davidpm/ripl/Prodclin
-Packaged: 2013-09-11 22:12:22 UTC; root
+Packaged: 2014-03-07 17:08:57 UTC; root
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2013-09-12 23:44:53
+Date/Publication: 2014-03-07 18:33:35
