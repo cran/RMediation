@@ -1,6 +1,10 @@
 ##exportPattern("^[[:alpha:]]+")
-export(medci,qprodnormal,pprodnormal,ci)
-useDynLib(RMediation,quantile_prodclin,fnprod)
+export(medci,qprodnormal,pprodnormal,ci,qMC,pMC)
 import(MASS)
-importFrom(lavaan, vech.reverse)
+importFrom(lavaan, lav_matrix_vech_reverse,sem,fitMeasures,lavTestLRT,bootstrapLRT,bootstrapLavaan)
 importFrom(e1071, skewness, kurtosis)
+ importFrom("graphics", "arrows", "axis", "curve", "legend", "lines",
+            "mtext", "par", "points", "segments", "text")
+ importFrom("stats", "coef", "density", "deriv", "dnorm", "integrate",
+            "pnorm", "qnorm", "quantile", "rnorm", "sd", "uniroot",
+            "update", "vcov")

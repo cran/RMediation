@@ -1,5 +1,11 @@
+RMediation 1.1.4 (3/12/2016)
+=============
+*'medci' function output structure is changed. For each 'type', it produces a 'list' of '(1-alpha/2)% CI', 'Estimate', and 'SE'. See help(ci) for more information.
+
+*Two functions 'pMC' and 'qMC' are added.
+
+*for medci(), type=‘prodclin’ is replaced with ‘dop’. 
+
 RMediation 1.1.3
 =============
 *New 'ci' function produces CIs for any well-defined function of parameter estimates in an SEM and MSEM using the Monte Carlo or asymptotic normal theory with the multivariate delta standard error method.
-
-*'medci' now uses type='DOP' as the default method to produce distribution of the product of coefficient CIs. DOP is the PRODCLIN program written in R code.

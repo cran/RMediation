@@ -2,18 +2,18 @@
 \alias{RMediation-package}
 \docType{package}
 \title{
-RMediation: An R Package for Mediation Analysis Confidence Intervals
+Mediation Analysis Confidence Intervals
 }
 \description{
-\emph{RMediation} package provides functions to compute confidence
+We provide functions to compute confidence
 intervals (CIs) for a well--defined nonlinear function of the model parameters (e.g., product of k coefficients) in single--level and multilevel structural equation models.
 }
 \details{
 \tabular{ll}{
 Package: \tab RMediation\cr
 Type: \tab Package\cr
-Version: \tab 1.1.3\cr
-Date: \tab 2014-3-6\cr
+Version: \tab 1.1.4\cr
+Date: \tab 2016-3-12\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -25,10 +25,10 @@ LazyLoad: \tab yes\cr
 \code{\link{ci}} produces a CI for a well--defined nonlinear function of the model parameters in single--level and multilevel structural equation models using the Monte Carlo and Asymptotic-Delta method.
 }
 \author{
-  Davood Tofighi \email{dtofighi@psych.gatech.edu} and
+  Davood Tofighi \email{dtofighi@unm.edu} and
   David P. MacKinnon \email{davidpm@asu.edu}
   
-Maintainer: Davood Tofighi <dtofighi@psych.gatech.edu>
+Maintainer: Davood Tofighi <dtofighi@unm.edu>
 %~~ The author and/or maintainer of the package ~~
 }
 \references{
@@ -37,6 +37,8 @@ MacKinnon, D. P., Fritz, M. S., Williams, J., and Lockwood, C. M. (2007). Distri
 Meeker, W. and Escobar, L. (1994). An algorithm to compute the CDF of the product of two normal random variables. \emph{Communications in Statistics: Simulation and Computation}, \bold{23}, 271--280.
 
 Tofighi, D. and MacKinnon, D. P. (2011). RMediation: An R package for mediation analysis confidence intervals. \emph{Behavior Research Methods}, \bold{43}, 692--700. doi:10.3758/s13428-011-0076-x
+
+Tofighi, D., and MacKinnon, D. P. (2016). Monte Carlo confidence intervals for complex functions of indirect effects. \emph{Structural Equation Modeling: A Multidisciplinary Journal}, \bold{23}, 194-205. http://doi.org/10.1080/10705511.2015.1057284
 %~~ Literature or other references for background information ~~
 }
 %~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
@@ -60,7 +62,5 @@ ci(mu=c(b1=1,b2=.7,b3=.6, b4= .45), Sigma=c(.05,0,0,0,.05,0,0, .03, 0, .03),
 quant=~b1*b2*b3*b4, type="all", plot=TRUE, plotCI=TRUE)
 }
 
-\note{
-  The PRODCLIN programs may be downloaded from
-   \url{http://www.public.asu.edu/~davidpm/ripl/Prodclin/}. A web application of the RMediation program is available from \url{http://amp.gatech.edu/RMediation}. 
+\note{ Two web applications of the RMediation program are available from \url{http://amp.gatech.edu/RMediation} and \url{http://amp.gatech.edu/MonteCarlo}. 
 }

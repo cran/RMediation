@@ -16,7 +16,7 @@ confintAsymp <- function(mu, Sigma, quant=NULL, alpha=0.05, type="asymp", plot=F
   outer <- FALSE #outer position
   mcex <- .8
   
-  if (plot==TRUE & quantSE>40*.Machine$double.eps)
+  if (plot & quantSE>40*.Machine$double.eps)
   {
     if(type=="all"){     
       f <- Vectorize(function(x) dnorm(x,quantMean,quantSE), "x")
@@ -57,7 +57,7 @@ confintAsymp <- function(mu, Sigma, quant=NULL, alpha=0.05, type="asymp", plot=F
   } 
   } #if
   
-  if (plot==TRUE & quantSE<=40*.Machine$double.eps){
+  if (plot & quantSE<=40*.Machine$double.eps){
     if(type %in% c("asymp", "Asymp")){
 #     range1 <- c(quantMean-2.58*quantSE, quantMean+2.58*quantSE)
 #     max1 <- range1[2]

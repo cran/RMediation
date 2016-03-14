@@ -1,4 +1,4 @@
-pprodnormal<- function(q, mu.x, mu.y, se.x=1, se.y=1, rho=0, lower.tail=TRUE, type="prodclin", n.mc=1e5){
+pprodnormal<- function(q, mu.x, mu.y, se.x=1, se.y=1, rho=0, lower.tail=TRUE, type="dop", n.mc=1e5){
   if(!is.numeric(mu.x))
     stop("Argument mu.x must be numeric!")
   if(!is.numeric(mu.y))
@@ -16,21 +16,12 @@ pprodnormal<- function(q, mu.x, mu.y, se.x=1, se.y=1, rho=0, lower.tail=TRUE, ty
 
   if (type=="all" || type=="All" || type=="ALL")
     {
-        ##cat("PRODCLIN method:\n")
-        p1 <- pprodnormalProdclin(q, mu.x, mu.y, se.x, se.y, rho, lower.tail)
-        ##cat("Meeker method:\n")
         p2 <- pprodnormalMeeker(q, mu.x, mu.y, se.x, se.y, rho, lower.tail)
         ##cat("Monte Carlo method:\n")
         p3 <- pprodnormalMC(q, mu.x, mu.y, se.x, se.y, rho, lower.tail, n.mc)
-        res <- list(p1,p2,p3)
-        names(res) <- c("PRODCLIN", "Distribution of Product", "Monte Carlo")
+        res <- list(p2,p3)
+        names(res) <- c( "Distribution of Product", "Monte Carlo")
         return(res)
-    }
-  else if (type=="prodclin" || type=="PRODCLIN" || type=="Prodclin")
-    {
-        ##cat("PRODCLIN method:\n")
-        p1 <- pprodnormalProdclin(q, mu.x, mu.y, se.x, se.y, rho, lower.tail)
-        return(p1)
     }
   else if (type=="DOP" || type=="dop")
     {
@@ -44,5 +35,5 @@ pprodnormal<- function(q, mu.x, mu.y, se.x=1, se.y=1, rho=0, lower.tail=TRUE, ty
         p3 <- pprodnormalMC(q, mu.x, mu.y, se.x, se.y, rho, lower.tail, n.mc)
         return(p3)
     }
-  else stop("Wrong type! please specify type=\"all\", \"DOP\", \"prodclin\", or \"MC\" ")
+  else stop("Wrong type! please specify type=\"all\", \"DOP\", or \"MC\" ")
 }
