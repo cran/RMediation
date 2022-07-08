@@ -28,11 +28,8 @@ scalar probability value.
 This function returns a probability corresponding to the quantile \code{q}.
 }
 \examples{
-pMC(.2,mu=c(b1=1,b2=.7,b3=.6, b4= .45), Sigma=c(.05,0,0,0,.05,0,0,.03,0,.03), 
+pMC(.2,mu=c(b1=1,b2=.7,b3=.6, b4= .45), Sigma=c(.05,0,0,0,.05,0,0,.03,0,.03),
 quant=~b1*b2*b3*b4)
-}
-\author{
-Davood Tofighi \email{dtofighi@unm.edu} and David P. MacKinnon \email{davidpm@asu.edu}
 }
 \references{
 Tofighi, D. and MacKinnon, D. P. (2011). RMediation: An R package for mediation analysis confidence intervals. \emph{Behavior Research Methods}, \bold{43}, 692--700. doi:10.3758/s13428-011-0076-x
@@ -40,6 +37,8 @@ Tofighi, D. and MacKinnon, D. P. (2011). RMediation: An R package for mediation 
 \seealso{
 \code{\link{medci}} \code{\link{RMediation-package}}
 }
+\author{
+Davood Tofighi \email{dtofighi@gmail.com}
+}
 \keyword{distribution}
 \keyword{regression}
-

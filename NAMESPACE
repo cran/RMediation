@@ -1,10 +1,20 @@
 ##exportPattern("^[[:alpha:]]+")
-export(medci,qprodnormal,pprodnormal,ci,qMC,pMC)
-import(MASS)
-importFrom(lavaan, lav_matrix_vech_reverse,sem,fitMeasures,lavTestLRT,bootstrapLRT,bootstrapLavaan)
-importFrom(e1071, skewness, kurtosis)
- importFrom("graphics", "arrows", "axis", "curve", "legend", "lines",
+export(medci,qprodnormal,pprodnormal,ci,qMC,pMC,mbco)
+importFrom("MASS","mvrnorm")
+importFrom("lavaan", "lav_matrix_vech_reverse","sem","fitMeasures","lavTestLRT","bootstrapLRT","bootstrapLavaan")
+importFrom("e1071", "skewness", "kurtosis")
+importFrom("graphics", "arrows", "axis", "curve", "legend", "lines",
             "mtext", "par", "points", "segments", "text")
- importFrom("stats", "coef", "density", "deriv", "dnorm", "integrate",
+importFrom("stats", "coef", "density", "deriv", "dnorm", "integrate",
             "pnorm", "qnorm", "quantile", "rnorm", "sd", "uniroot",
             "update", "vcov")
+importFrom("grDevices", "heat.colors")
+importFrom("stats", "filter", "na.omit","cov")
+importFrom('modelr','resample_bootstrap')
+importFrom("methods", "is")
+import(OpenMx)
+import(doParallel)
+import(foreach)
+import(iterators)
+import(parallel)
+import(stringr)

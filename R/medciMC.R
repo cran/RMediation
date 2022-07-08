@@ -12,6 +12,6 @@ medciMC <-
     CI <- (quantile(ab,c(alpha/2,1-alpha/2))) # Added 3/28/14
     #names(CI) <- c(paste((alpha/2*100),"%"),paste((1-alpha/2)*100,"%"))
     res <- list(CI,quantMean,quantSE,quantError) # Added 3/28/14
-    names(res) <- c(paste((1-alpha/2)*100,"% ","CI",sep=""), "Estimate", "SE","MC Error")
+    names(res) <- c(paste((1-alpha)*100,"% ","CI",sep=""), "Estimate", "SE","MC Error")
     return(res)
   }
