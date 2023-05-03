@@ -17,7 +17,7 @@
 #' @param mu (1) a \link{vector} of means (e.g., coefficient estimates) for the
 #'   normal random variables. A user can assign a name to each mean value, e.g.,
 #'   \code{mu=c(b1=.1,b2=3)}; otherwise, the coefficient names are assigned
-#'   automatically as follows: \code{b1,b2,...}. Or, a \link{lavaan} object.
+#'   automatically as follows: \code{b1,b2,...}. Or, (2) a \link{lavaan} object.
 #' @param Sigma either a covariance matrix or a \link{vector} that stacks all
 #'   the columns of the lower triangle variance--covariance matrix one
 #'   underneath the other.

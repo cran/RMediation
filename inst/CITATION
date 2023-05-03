@@ -1,19 +1,19 @@
      citHeader("To cite package 'RMediation' in publications use:")
-     
+
      ## R >= 2.8.0 passes package metadata to citation().
      if(!exists("meta") || is.null(meta)) meta <- packageDescription("RMediation")
      year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
      vers <- paste("R package version", meta$Version)
-     
-     citEntry(entry="Article",
-              title = "RMediation: An R package for mediation analysis confidence intervals",
-              author = personList(as.person("Davood Tofighi"),
-                                  as.person("David P. MacKinnon")),
-	    journal="Behavior Research Methods",
-              year = "2011",
-		volume="43",
-		pages="692--700",
 
-              textVersion =
-              paste("Tofighi, D.  & ",
-                    "MacKinnon, D. P. (2011). RMediation: An R package for mediation analysis confidence intervals. Behavior Research Methods, 43,  692--700.  doi:10.3758/s13428-011-0076-x", sep=""))
+c(
+bibentry="Article",
+        title = "RMediation: An R package for mediation analysis confidence intervals",
+        author = list(c("Davood Tofighi"),
+                                  c("David P. MacKinnon")),
+	    journal="Behavior Research Methods",
+      year = "2011",
+		  volume="43",
+		  pages="692--700",
+      textVersion = paste("Tofighi, D.  & ",
+                    "MacKinnon, D. P. (2011). RMediation: An R package for mediation  analysis confidence intervals. Behavior Research Methods, 43, 692--700.  doi:10.3758/s13428-011-0076-x", sep="")
+                    )

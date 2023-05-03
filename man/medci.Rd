@@ -65,7 +65,7 @@ each method as described above.
 }
 \description{
 Produces confidence intervals for the mediated effect and the product of two
-normal random variables.
+normal random variables
 }
 \details{
 This function returns a (\eqn{1-\alpha})\% confidence interval for
@@ -81,17 +81,12 @@ Note that except for the Monte Carlo method, the standard error for the
 indirect effect is based on the analytical results by Craig (1936):
 \deqn{\sqrt(se.y^2 \mu.x^2+se.x^2 \mu.y^2+2 \mu.x \mu.y \rho se.x se.y+
   se.x^2 se.y^2+se.x^2 se.y^2 \rho^2) }. In addition, the estimate of
-indirect effect is \eqn{\mu.x\mu.y +\sigma.xy }; \code{type="all"} prints
+indirect effect is \eqn{\mu.x \mu.y +\sigma.xy }; \code{type="all"} prints
 confidence intervals using all four options.
-}
-\note{
-A web application of the RMediation program is available from
-\url{https://amplab.shinyapps.io/MEDCI/}.
 }
 \examples{
  res <- medci(mu.x=.2, mu.y=.4, se.x=1, se.y=1, rho=0, alpha=.05,
  type="prodclin", plot=TRUE, plotCI=TRUE)
-
 
 }
 \references{

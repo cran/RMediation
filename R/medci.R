@@ -1,7 +1,7 @@
 #' Confidence Interval for the Mediated Effect
 #'
 #' Produces confidence intervals for the mediated effect and the product of two
-#' normal random variables.
+#' normal random variables
 #'
 #' @param mu.x  mean of \eqn{x}
 #' @param mu.y mean of \eqn{y}
@@ -38,7 +38,7 @@
 #'   indirect effect is based on the analytical results by Craig (1936):
 #'   \deqn{\sqrt(se.y^2 \mu.x^2+se.x^2 \mu.y^2+2 \mu.x \mu.y \rho se.x se.y+
 #'   se.x^2 se.y^2+se.x^2 se.y^2 \rho^2) }. In addition, the estimate of
-#'   indirect effect is \eqn{\mu.x\mu.y +\sigma.xy }; \code{type="all"} prints
+#'   indirect effect is \eqn{\mu.x \mu.y +\sigma.xy }; \code{type="all"} prints
 #'   confidence intervals using all four options.
 #'
 #' @return A vector of lower confidence limit and upper confidence limit. When
@@ -73,14 +73,11 @@
 #'  res <- medci(mu.x=.2, mu.y=.4, se.x=1, se.y=1, rho=0, alpha=.05,
 #'  type="prodclin", plot=TRUE, plotCI=TRUE)
 #'
-#'
 #' @seealso \code{\link{qprodnormal}} \code{\link{pprodnormal}} \code{\link{ci}}
 #'   \code{\link{RMediation-package}}
 #'
 #' @keywords mediation
 #' @export
-#' @note A web application of the RMediation program is available from
-#'   \url{https://amplab.shinyapps.io/MEDCI/}.
 
 medci <-function(mu.x,mu.y,se.x,se.y,rho=0,alpha=.05,type="dop", plot=FALSE,plotCI=FALSE, n.mc=1e5,...)
 {

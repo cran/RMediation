@@ -22,7 +22,7 @@
 #'   random variables). To obtain a quantile using a specific method, the
 #'   argument \code{type} should be specified. The default method is
 #'   \code{type="dop"}, which uses the method described by Meeker and Escobar
-#'   (1994) to evaluate the CDF of the distributionof product of two normal
+#'   (1994) to evaluate the CDF of the distribution of product of two normal
 #'   variables. \code{type="MC"} uses the Monte Carlo approach (Tofighi &
 #'   MacKinnon, 2011). \code{type="all"} prints quantiles using all three
 #'   options. For the method \code{type="dop"}, the error is the modulus of

@@ -1,3 +1,7 @@
+RMediation 1.2.1 (4/28/2023)
+==============
+* Fixed issues to meet CRAN submission requirements.
+
 RMediation 1.2.0 (6/28/2022)
 ==============
 *New parametric and non-parametric MBCO test, using `mbco` function.

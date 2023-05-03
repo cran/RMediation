@@ -1,26 +1,30 @@
 Package: RMediation
 Type: Package
 Title: Mediation Analysis Confidence Intervals
-Version: 1.2.0
-Date: 2022-06-29
-Author: Davood Tofighi <dtofighi@gmail.com>
-Maintainer: Davood Tofighi <dtofighi@gmail.com>
+Version: 1.2.1
+Date: 2023-04-28
+Authors@R: person("Davood", "Tofighi",
+        email = "dtofighi@gmail.com",
+        role = c("aut", "cre"),
+        comment= c(ORCID= "0000-0001-8523-7776")
+        )
 Depends: R (>= 3.5.0), base (>= 3.5.0), stats (>= 3.5.0), graphics (>=
         3.5.0), methods (>= 3.5.0), lavaan (>= 0.5-20), e1071 (>=
-        1.6-7), OpenMx (>= 2.13), MASS (>= 7.3), modelr (>= 0.1.4)
-Imports: doParallel, foreach, iterators, stringr, grDevices
+        1.6-7), OpenMx (>= 2.13), MASS (>= 7.3)
+Imports: modelr (>= 0.1.4), doParallel (>= 1.0.0), foreach (>= 1.5.0),
+        iterators (>= 1.0.0), stringr(>= 1.4.0), grDevices (>= 4.3)
 Suggests: knitr, rmarkdown
 LazyData: true
-Description: We provide functions to compute confidence
-    intervals (CIs) for a well-defined nonlinear function of the model
-    parameters (e.g., product of k coefficients) in single--level and
-    multilevel structural equation models.
+Description: We provide functions to compute confidence intervals for a well-defined nonlinear function of the model parameters (e.g., product of k coefficients) in single--level and
+    multilevel structural equation models. It also computes a chi-square test statistic for a function of indirect effects. 
+    'Tofighi', D. and 'MacKinnon', D. P. (2011). 'RMediation' An R package for mediation analysis confidence intervals. Behavior Research Methods, 43, 692--700. <doi:10.3758/s13428-011-0076-x>.
+    'Tofighi', D. (2020). Bootstrap Model-Based Constrained Optimization Tests of Indirect Effects. Frontiers in Psychology, 10, 2989. <doi:10.3389/fpsyg.2019.02989>.
 License: GPL-2
 Encoding: UTF-8
-URL: https://amplab.shinyapps.io/MEDCI/
-        https://amplab.shinyapps.io/MEDMC/
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2022-06-30 21:23:51 UTC; davoodtofighi
+Packaged: 2023-05-03 01:14:21 UTC; davoodtofighi
+Author: Davood Tofighi [aut, cre] (<https://orcid.org/0000-0001-8523-7776>)
+Maintainer: Davood Tofighi <dtofighi@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-07-08 23:10:11 UTC
+Date/Publication: 2023-05-03 11:30:12 UTC
