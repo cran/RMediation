@@ -1,6 +1,6 @@
-f487c72bb9a5408ab21fe90654c85a8a *DESCRIPTION
+8882fadab643c30875d9bd1d8f7aa72e *DESCRIPTION
 aafb3e9ceebd80d186cda30ad23dd3b3 *NAMESPACE
-e8aebc68c9afd828d7ca2e1d81ada53a *NEWS.md
+c7e629bbccf459263ebd53ccaaabd18a *NEWS.md
 df6cc46bc7fae1a55b713f3d5065b35a *R/RMediation-package.R
 906db27600018423b4d29b4677730a91 *R/ci.R
 c34a328bb9eee85c51956dc24146f354 *R/confintAsymp.R
@@ -9,7 +9,7 @@ a661c53a6e8a2eb7c0916e3462337683 *R/mbco.R
 b671e670ccfd8ae28c0dedadec29647f *R/mbco_asymp.R
 7b1bb0482a1f68a101e2b76abfbc932d *R/mbco_parametric.R
 59efe175ebfee70bdf7d8ef41b28e2bf *R/mbco_semi.R
-b3d34924bf9b54502c4fe0dc7061b7db *R/medci.R
+5cd6cbdac60c002c8ecf60de1ab2898e *R/medci.R
 d55365c8dd2acac0133576047cb62c47 *R/medciAsymp.R
 031e83168934b850aaf3355a11ecff3d *R/medciMC.R
 c40a12607a69d9be2741f084c87b10b2 *R/medciMeeker.R
@@ -29,7 +29,7 @@ b8f396d5dc8cd67aec507c47fc4ba156 *data/memory_exp.RData
 c699c236c49e142bb7b0c57bf8966fe8 *man/RMediation-package.Rd
 e30946f90c5dfd44c50a6d533090acb4 *man/ci.Rd
 9410fd6883b314cc7bc725c027f10bc5 *man/mbco.Rd
-9e2035f140cee3f215c13e94a98b4562 *man/medci.Rd
+f9c92b42c2142e0682052c5c3fd69455 *man/medci.Rd
 76be3108ff9b951a6e121bcb123f2f48 *man/memory_exp.Rd
 db7bb3ef97e59dea19f2414005b72be7 *man/pMC.Rd
 94e15c20a68777ad1209528be2567f03 *man/pprodnormal.Rd

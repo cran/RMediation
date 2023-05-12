@@ -70,9 +70,11 @@
 #' @author Davood Tofighi \email{dtofighi@@gmail.com}
 #'
 #' @examples
+#' ## Example 1
 #'  res <- medci(mu.x=.2, mu.y=.4, se.x=1, se.y=1, rho=0, alpha=.05,
-#'  type="prodclin", plot=TRUE, plotCI=TRUE)
-#'
+#'  type="dop", plot=TRUE, plotCI=TRUE)
+#'  ## Example 2
+#' res <- medci(mu.x=.2, mu.y=.4, se.x=1, se.y=1, rho=0, alpha=.05, type="all", plot=TRUE, plotCI=TRUE)
 #' @seealso \code{\link{qprodnormal}} \code{\link{pprodnormal}} \code{\link{ci}}
 #'   \code{\link{RMediation-package}}
 #'
@@ -136,6 +138,7 @@ medci <-function(mu.x,mu.y,se.x,se.y,rho=0,alpha=.05,type="dop", plot=FALSE,plot
       {
         MCCI= medciMC(mu.x, mu.y, se.x, se.y, rho , alpha , n.mc = n.mc)
         asympCI <- medciAsymp(mu.x, mu.y, se.x, se.y, rho, alpha) # added 3/28/14-DT
+        MeekerCI=medciMeeker(mu.x, mu.y, se.x, se.y, rho, alpha)
         res <- list( MeekerCI, MCCI, asympCI)
         names(res) <- c( "Monte Carlo", "Asymptotic Normal")
         return(res)

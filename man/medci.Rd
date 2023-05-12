@@ -85,9 +85,11 @@ indirect effect is \eqn{\mu.x \mu.y +\sigma.xy }; \code{type="all"} prints
 confidence intervals using all four options.
 }
 \examples{
+## Example 1
  res <- medci(mu.x=.2, mu.y=.4, se.x=1, se.y=1, rho=0, alpha=.05,
- type="prodclin", plot=TRUE, plotCI=TRUE)
-
+ type="dop", plot=TRUE, plotCI=TRUE)
+ ## Example 2
+res <- medci(mu.x=.2, mu.y=.4, se.x=1, se.y=1, rho=0, alpha=.05, type="all", plot=TRUE, plotCI=TRUE)
 }
 \references{
 Craig, C. C. (1936). On the frequency function of \eqn{xy}.

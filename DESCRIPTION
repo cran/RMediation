@@ -1,7 +1,7 @@
 Package: RMediation
 Type: Package
 Title: Mediation Analysis Confidence Intervals
-Version: 1.2.1
+Version: 1.2.2
 Date: 2023-04-28
 Authors@R: person("Davood", "Tofighi",
         email = "dtofighi@gmail.com",
@@ -12,7 +12,7 @@ Depends: R (>= 3.5.0), base (>= 3.5.0), stats (>= 3.5.0), graphics (>=
         3.5.0), methods (>= 3.5.0), lavaan (>= 0.5-20), e1071 (>=
         1.6-7), OpenMx (>= 2.13), MASS (>= 7.3)
 Imports: modelr (>= 0.1.4), doParallel (>= 1.0.0), foreach (>= 1.5.0),
-        iterators (>= 1.0.0), stringr(>= 1.4.0), grDevices (>= 4.3)
+        iterators (>= 1.0.0), stringr(>= 1.4.0), grDevices (>= 3.5)
 Suggests: knitr, rmarkdown
 LazyData: true
 Description: We provide functions to compute confidence intervals for a well-defined nonlinear function of the model parameters (e.g., product of k coefficients) in single--level and
@@ -23,8 +23,8 @@ License: GPL-2
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-05-03 01:14:21 UTC; davoodtofighi
+Packaged: 2023-05-12 02:41:54 UTC; davoodtofighi
 Author: Davood Tofighi [aut, cre] (<https://orcid.org/0000-0001-8523-7776>)
 Maintainer: Davood Tofighi <dtofighi@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-05-03 11:30:12 UTC
+Date/Publication: 2023-05-12 04:00:03 UTC
