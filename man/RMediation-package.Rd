@@ -6,7 +6,18 @@
 \alias{RMediation-package}
 \title{RMediation: Mediation Analysis Confidence Intervals}
 \description{
-We provide functions to compute confidence intervals for a well-defined nonlinear function of the model parameters (e.g., product of k coefficients) in single--level and multilevel structural equation models. It also computes a chi-square test statistic for a function of indirect effects. 'Tofighi', D. and 'MacKinnon', D. P. (2011). 'RMediation' An R package for mediation analysis confidence intervals. Behavior Research Methods, 43, 692--700. \doi{10.3758/s13428-011-0076-x}. 'Tofighi', D. (2020). Bootstrap Model-Based Constrained Optimization Tests of Indirect Effects. Frontiers in Psychology, 10, 2989. \doi{10.3389/fpsyg.2019.02989}.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Computes confidence intervals for nonlinear functions of model parameters (e.g., product of k coefficients) in single-level and multilevel structural equation models. Methods include the distribution of the product, Monte Carlo simulation, and bootstrap methods. It also performs the Model-Based Constrained Optimization (MBCO) procedure for hypothesis testing of indirect effects. References: Tofighi, D., and MacKinnon, D. P. (2011). RMediation: An R package for mediation analysis confidence intervals. Behavior Research Methods, 43, 692-700. \doi{10.3758/s13428-011-0076-x}; Tofighi, D., and Kelley, K. (2020). Improved inference in mediation analysis: Introducing the model-based constrained optimization procedure. Psychological Methods, 25(4), 496-515. \doi{10.1037/met0000259}; Tofighi, D. (2020). Bootstrap Model-Based Constrained Optimization Tests of Indirect Effects. Frontiers in Psychology, 10, 2989. \doi{10.3389/fpsyg.2019.02989}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://data-wise.github.io/rmediation/}
+  \item \url{https://github.com/data-wise/rmediation}
+  \item Report bugs at \url{https://github.com/data-wise/rmediation/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Davood Tofighi \email{dtofighi@gmail.com} (\href{https://orcid.org/0000-0001-8523-7776}{ORCID})

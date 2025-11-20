@@ -38,57 +38,42 @@
 #'   Research Methods}, \bold{43}, 692--700. doi:10.3758/s13428-011-0076-x
 #' @seealso \code{\link{medci}} \code{\link{RMediation-package}}
 #' @examples
-#' ##lower tail
-#' qprodnormal(p=.1, mu.x=.5, mu.y=.3, se.x=1, se.y=1, rho=0,
-#' lower.tail = TRUE, type="all")
-#' ##upper tail
-#' qprodnormal(p=.1, mu.x=.5, mu.y=.3, se.x=1, se.y=1, rho=0,
-#' lower.tail = FALSE, type="all")
+#' ## lower tail
+#' qprodnormal(
+#'   p = .1, mu.x = .5, mu.y = .3, se.x = 1, se.y = 1, rho = 0,
+#'   lower.tail = TRUE, type = "all"
+#' )
+#' ## upper tail
+#' qprodnormal(
+#'   p = .1, mu.x = .5, mu.y = .3, se.x = 1, se.y = 1, rho = 0,
+#'   lower.tail = FALSE, type = "all"
+#' )
+#' @importFrom checkmate assert_numeric assert_logical assert_count
 #' @export
-
-
 qprodnormal <-
-function(p, mu.x, mu.y, se.x, se.y, rho=0, lower.tail=TRUE, type="dop", n.mc=1e5){
-  if(p<=-1 || p>=1)
-    stop("p must be between -1 and 1!")
-  if(!is.numeric(mu.x))
-    stop("Argument mu.x must be numeric!")
-  if(!is.numeric(mu.y))
-    stop("Argument mu.y must be numeric!")
-  if(!is.numeric(se.x))
-    stop("Argument se.x must be numeric!")
-  if(!is.numeric(se.y))
-      stop("Argument se.y must be numeric!")
-  if(!is.numeric(rho))
-      stop("Argument rho  must be numeric!")
-  if(rho<=-1 || rho>=1)
-    stop("rho must be between -1 and 1!")
-  if(!is.numeric(n.mc) || is.null(n.mc))
-    n.mc=1e5 # sets n.mc to default
+  function(p, mu.x, mu.y, se.x, se.y, rho = 0, lower.tail = TRUE, type = "dop", n.mc = 1e5) {
+    # Input validation
+    assert_numeric(p, lower = 0, upper = 1, finite = TRUE, len = 1)
+    assert_numeric(mu.x, finite = TRUE)
+    assert_numeric(mu.y, finite = TRUE)
+    assert_numeric(se.x, lower = 0, finite = TRUE)
+    assert_numeric(se.y, lower = 0, finite = TRUE)
+    assert_numeric(rho, lower = -1, upper = 1, finite = TRUE)
+    assert_logical(lower.tail)
+    type <- match.arg(type, c("dop", "MC", "all"))
+    assert_count(n.mc, positive = TRUE)
 
-  if (type=="all" || type=="All" || type=="ALL")
-    {
-       ##cat("Meeker method:\n")
-        q2 <- qprodnormalMeeker(p, mu.x, mu.y, se.x, se.y, rho, lower.tail)
-        ##cat("Monte Carlo method:\n")
-        q3 <- qprodnormalMC(p, mu.x, mu.y, se.x, se.y, rho, lower.tail, n.mc)
-        res <- list(q2,q3)
-        names(res) <- c( "Distribution of Product", "Monte Carlo")
-        return(res)
+    if (type == "all") {
+      q2 <- qprodnormalMeeker(p, mu.x, mu.y, se.x, se.y, rho, lower.tail)$q
+      q3 <- qprodnormalMC(p, mu.x, mu.y, se.x, se.y, rho, lower.tail, n.mc)$q
+      res <- list(q2, q3)
+      names(res) <- c("Distribution of Product", "Monte Carlo")
+      return(res)
+    } else if (type == "dop") {
+      q2 <- qprodnormalMeeker(p, mu.x, mu.y, se.x, se.y, rho, lower.tail)$q
+      return(q2)
+    } else if (type == "MC") {
+      q3 <- qprodnormalMC(p, mu.x, mu.y, se.x, se.y, rho, lower.tail, n.mc)$q
+      return(q3)
     }
-  else if (type=="DOP" || type=="dop")
-    {
-        ##cat("Meeker method:\n")
-        q2 <- qprodnormalMeeker(p, mu.x, mu.y, se.x, se.y, rho, lower.tail)
-        return(q2)
-    }
-  else if (type=="MC" || type=="mc" || type=="Mc")
-    {
-        ##cat("Monte Carlo method:\n")
-        q3 <- qprodnormalMC(p, mu.x, mu.y, se.x, se.y, rho, lower.tail, n.mc)
-        return(q3)
-    }
-  else stop("Wrong type! please specify type=\"all\", \"DOP\", or \"MC\" ")
-}
-
-
+  }

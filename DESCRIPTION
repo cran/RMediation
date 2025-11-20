@@ -1,30 +1,44 @@
 Package: RMediation
 Type: Package
 Title: Mediation Analysis Confidence Intervals
-Version: 1.2.2
-Date: 2023-04-28
-Authors@R: person("Davood", "Tofighi",
-        email = "dtofighi@gmail.com",
-        role = c("aut", "cre"),
-        comment= c(ORCID= "0000-0001-8523-7776")
-        )
-Depends: R (>= 3.5.0), base (>= 3.5.0), stats (>= 3.5.0), graphics (>=
-        3.5.0), methods (>= 3.5.0), lavaan (>= 0.5-20), e1071 (>=
-        1.6-7), OpenMx (>= 2.13), MASS (>= 7.3)
-Imports: modelr (>= 0.1.4), doParallel (>= 1.0.0), foreach (>= 1.5.0),
-        iterators (>= 1.0.0), stringr(>= 1.4.0), grDevices (>= 3.5)
-Suggests: knitr, rmarkdown
-LazyData: true
-Description: We provide functions to compute confidence intervals for a well-defined nonlinear function of the model parameters (e.g., product of k coefficients) in single--level and
-    multilevel structural equation models. It also computes a chi-square test statistic for a function of indirect effects. 
-    'Tofighi', D. and 'MacKinnon', D. P. (2011). 'RMediation' An R package for mediation analysis confidence intervals. Behavior Research Methods, 43, 692--700. <doi:10.3758/s13428-011-0076-x>.
-    'Tofighi', D. (2020). Bootstrap Model-Based Constrained Optimization Tests of Indirect Effects. Frontiers in Psychology, 10, 2989. <doi:10.3389/fpsyg.2019.02989>.
-License: GPL-2
-Encoding: UTF-8
-RoxygenNote: 7.2.3
-NeedsCompilation: no
-Packaged: 2023-05-12 02:41:54 UTC; davoodtofighi
-Author: Davood Tofighi [aut, cre] (<https://orcid.org/0000-0001-8523-7776>)
+Version: 1.3.0
+Date: 2025-11-18
+Author: Davood Tofighi [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-8523-7776>)
 Maintainer: Davood Tofighi <dtofighi@gmail.com>
+Authors@R: person("Davood", "Tofighi",
+    email = "dtofighi@gmail.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0001-8523-7776"))
+Description: Computes confidence intervals for nonlinear functions of model 
+    parameters (e.g., product of k coefficients) in single-level and multilevel 
+    structural equation models. Methods include the distribution of the product, 
+    Monte Carlo simulation, and bootstrap methods. It also performs the Model-Based 
+    Constrained Optimization (MBCO) procedure for hypothesis testing of indirect 
+    effects.
+    References:
+    Tofighi, D., and MacKinnon, D. P. (2011). RMediation: An R package for mediation 
+    analysis confidence intervals. Behavior Research Methods, 43, 692-700. 
+    <doi:10.3758/s13428-011-0076-x>;
+    Tofighi, D., and Kelley, K. (2020). Improved inference in mediation analysis: Introducing the model-based constrained optimization procedure. 
+    Psychological Methods, 25(4), 496-515. <doi:10.1037/met0000259>;
+    Tofighi, D. (2020). Bootstrap Model-Based Constrained Optimization Tests of 
+    Indirect Effects. Frontiers in Psychology, 10, 2989. 
+    <doi:10.3389/fpsyg.2019.02989>.
+License: GPL (>= 3) | file LICENSE
+URL: https://data-wise.github.io/rmediation/,
+        https://github.com/data-wise/rmediation
+BugReports: https://github.com/data-wise/rmediation/issues
+Depends: R (>= 4.1.0), base (>= 4.1.0), stats (>= 4.1.0)
+Imports: graphics (>= 4.1.0), lavaan (>= 0.5-20), e1071 (>= 1.6-7),
+        OpenMx (>= 2.13), grDevices (>= 4.1.0), MASS (>= 7.3), modelr
+        (>= 0.1.8), generics (>= 0.0.2), checkmate (>= 2.1.0)
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2025-11-19 23:07:28 UTC; dt
 Repository: CRAN
-Date/Publication: 2023-05-12 04:00:03 UTC
+Date/Publication: 2025-11-20 10:20:19 UTC

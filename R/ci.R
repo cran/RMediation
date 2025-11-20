@@ -17,7 +17,7 @@
 #' @param mu (1) a \link{vector} of means (e.g., coefficient estimates) for the
 #'   normal random variables. A user can assign a name to each mean value, e.g.,
 #'   \code{mu=c(b1=.1,b2=3)}; otherwise, the coefficient names are assigned
-#'   automatically as follows: \code{b1,b2,...}. Or, (2) a \link{lavaan} object.
+#'   automatically as follows: \code{b1,b2,...}. Or, (2) a \link[lavaan]{lavaan} object.
 #' @param Sigma either a covariance matrix or a \link{vector} that stacks all
 #'   the columns of the lower triangle variance--covariance matrix one
 #'   underneath the other.
@@ -62,71 +62,201 @@
 #' @keywords regression distribution
 #'
 #' @examples
-#' ci(mu=c(b1=1,b2=.7,b3=.6, b4= .45), Sigma=c(.05,0,0,0,.05,0,0,.03,0,.03),
-#' quant=~b1*b2*b3*b4, type="all", plot=TRUE, plotCI=TRUE)
-#' #An Example of Conservative Null Sampling Distribution
-#' ci(c(b1=.3,b2=.4,b3=.3), c(.01,0,0,.01,0,.02),
-#' quant=~b1*b2*b3, type="mc", plot=TRUE, plotCI=TRUE, H0=TRUE, mu0=c(b1=.3,b2=.4,b3=0)  )
-#' #An Example of Less Conservative Null Sampling Distribution
-#' ci(c(b1=.3,b2=.4,b3=.3), c(.01,0,0,.01,0,.02),
-#' quant=~b1*b2*b3, type="mc", plot=TRUE, plotCI=TRUE, H0=TRUE, mu0=c(b1=0,b2=.4,b3=0.1)  )
+#' ci(
+#'   mu = c(b1 = 1, b2 = .7, b3 = .6, b4 = .45),
+#'   Sigma = c(.05, 0, 0, 0, .05, 0, 0, .03, 0, .03),
+#'   quant = ~ b1 * b2 * b3 * b4, type = "all", plot = TRUE, plotCI = TRUE
+#' )
+#' # An Example of Conservative Null Sampling Distribution
+#' ci(c(b1 = .3, b2 = .4, b3 = .3), c(.01, 0, 0, .01, 0, .02),
+#'   quant = ~ b1 * b2 * b3, type = "mc", plot = TRUE, plotCI = TRUE,
+#'    H0 = TRUE, mu0 = c(b1 = .3, b2 = .4, b3 = 0)
+#' )
+#' # An Example of Less Conservative Null Sampling Distribution
+#' ci(c(b1 = .3, b2 = .4, b3 = .3), c(.01, 0, 0, .01, 0, .02),
+#'   quant = ~ b1 * b2 * b3, type = "mc", plot = TRUE, plotCI = TRUE,
+#'   H0 = TRUE, mu0 = c(b1 = 0, b2 = .4, b3 = 0.1)
+#' )
 #' @author Davood Tofighi \email{dtofighi@@gmail.com}
 #' @references  Tofighi, D. and MacKinnon, D. P. (2011). RMediation: An R
 #'   package for mediation analysis confidence intervals. \emph{Behavior
 #'   Research Methods}, \bold{43}, 692--700. \doi{doi:10.3758/s13428-011-0076-x}
 #' @seealso \code{\link{medci}} \code{\link{RMediation-package}}
-#' @export
 #' @importFrom lavaan lav_matrix_vech_reverse
 #' @importFrom MASS mvrnorm
-#' @note A shiny web application for  Monte Carlo method of this function is available at \url{https://amplab.shinyapps.io/MEDMC/}
+#' @importFrom e1071 skewness kurtosis
+#' @importFrom checkmate assert_number assert_logical assert_count assert_formula assert
+#' @export
+#' @example 
+#' ci(
+#'   mu = c(b1 = 1, b2 = .7, b3 = .6, b4 = .45),
+#'   Sigma = c(.05, 0, 0, 0, .05, 0, 0, .03, 0, .03),
+#'   quant = ~ b1 * b2 * b3 * b4, type = "MC", plot = TRUE, plotCI = TRUE
+#' )
+ci <- function(
+  mu,
+  Sigma,
+  quant,
+  alpha = 0.05,
+  type = "MC",
+  plot = FALSE,
+  plotCI = FALSE,
+  n.mc = 1e+06,
+  H0 = FALSE,
+  mu0 = NULL,
+  Sigma0 = NULL,
+  ...
+) {
+  # Input validation
+  checkmate::assert(
+    checkmate::check_class(mu, "lavaan"),
+    checkmate::check_numeric(mu, finite = TRUE)
+  )
+  checkmate::assert_formula(quant)
+  assert_number(alpha, lower = 0, upper = 1, finite = TRUE)
+  type <- tolower(type)
+  type <- match.arg(type, c("mc", "asymp", "all"))
+  checkmate::assert_logical(plot)
+  checkmate::assert_logical(plotCI)
+  checkmate::assert_count(n.mc, positive = TRUE)
+  checkmate::assert_logical(H0)
 
-ci <- function(mu, Sigma, quant, alpha=0.05, type="MC", plot=FALSE, plotCI=FALSE, n.mc = 1e+06, H0=FALSE, mu0=NULL, Sigma0=NULL, ...){
-  if(missing(mu) | is.null(mu) ) stop(paste("argument",sQuote("mu"), "must be specified"))
-  if(missing(quant) | is.null(quant)) stop(paste("argument",sQuote("quant"), "must be specified"))
-  if(!type%in%c("MC","mc","asymp","Asymp","all")) stop(paste("Please enter a ccorrect", sQuote("type"), "argument"))
-
-  if(!isa(mu,"lavaan")){
-  if(is.null(Sigma)| missing(Sigma) ) stop(paste("argument",sQuote("Sigma"), "cannot be a NULL value"))
-  if(!is.matrix(Sigma)){
-  if(length(mu)!= (sqrt(1 + 8 * length(Sigma)) - 1)/2) stop(paste("Please check the length of", sQuote("Sigma"),"and",sQuote("mu"),". If the length(dimension) of the", sQuote("mu"),"vector (",length(mu),") is correct, the stacked lower triangle matrix", sQuote("Sigma"), "must have ",((2*length(mu)+1)^2-1)/8, "elements, instead of", length(Sigma)) )
-  Sigma <- lav_matrix_vech_reverse(Sigma) #converts to a symmetric matrix
+  if (H0) {
+    if (!is.null(mu0)) {
+      assert_numeric(mu0, finite = TRUE, len = length(mu))
+    }
+    if (!is.null(Sigma0)) {
+      assert(
+        checkmate::check_matrix(Sigma0, mode = "numeric"),
+        checkmate::check_numeric(Sigma0)
+      )
+    }
   }
-  if(is.null(names(mu)) ) names(mu) <- paste("b",1:length(mu), sep="") # if mu names is NULL
 
-  if(!all(all.vars(quant) %in% names(mu))) stop(paste("The parameters names in formula", sQuote("quant"), "must match the parameters names provided in", sQuote("mu"),"."))
-  }
-  else{
+  if (!inherits(mu, "lavaan")) {
+    if (is.null(Sigma) || missing(Sigma)) {
+      stop(paste("argument", sQuote("Sigma"), "cannot be a NULL value"))
+    }
+    assert(
+      checkmate::check_matrix(
+        Sigma,
+        mode = "numeric",
+        nrows = length(mu),
+        ncols = length(mu)
+      ),
+      checkmate::check_numeric(Sigma)
+    )
+    if (!is.matrix(Sigma)) {
+      if (length(mu) != (sqrt(1 + 8 * length(Sigma)) - 1) / 2) {
+        stop(paste(
+          "Please check the length of",
+          sQuote("Sigma"),
+          "and",
+          sQuote("mu"),
+          ". If the length(dimension) of the",
+          sQuote("mu"),
+          "vector (",
+          length(mu),
+          ") is correct, the stacked lower triangle matrix",
+          sQuote("Sigma"),
+          "must have ",
+          ((2 * length(mu) + 1)^2 - 1) / 8,
+          "elements, instead of",
+          length(Sigma)
+        ))
+      }
+      Sigma <- lavaan::lav_matrix_vech_reverse(Sigma) # converts to a symmetric matrix
+    }
+    if (is.null(names(mu))) {
+      names(mu) <- paste("b", 1:length(mu), sep = "")
+    } # if mu names is NULL
+
+    if (!all(all.vars(quant) %in% names(mu))) {
+      stop(paste(
+        "The parameters names in formula",
+        sQuote("quant"),
+        "must match the parameters names provided in",
+        sQuote("mu"),
+        "."
+      ))
+    }
+  } else {
     fm1 <- mu
-#    if(!fm1@Options[['do.fit']]) fm1 <- update(mu, do.fit=TRUE) # If it's not fitted, refit.
-    pEstM1 <- coef(fm1) #parameter estimate
+    #    if(!fm1@Options[['do.fit']]) fm1 <- update(mu, do.fit=TRUE) # If it's not fitted, refit.
+    pEstM1 <- coef(fm1) # parameter estimate
     name1 <- all.vars(quant)
-    if(!all(name1 %in% names(pEstM1))) stop(paste("The parameters names in formula", sQuote("quant"), "must match the parameters names provided in lavaan object."))
+    if (!all(name1 %in% names(pEstM1))) {
+      stop(paste(
+        "The parameters names in formula",
+        sQuote("quant"),
+        "must match the parameters names provided in lavaan object."
+      ))
+    }
     mu <- pEstM1[name1]
-    ##Cov
-    covM1 <- (vcov(fm1)) #covariance of the coef estimates
-    Sigma <- covM1[name1,name1]
+    ## Cov
+    covM1 <- (vcov(fm1)) # covariance of the coef estimates
+    Sigma <- covM1[name1, name1]
   }
 
-  if(length(mu)*n.mc > .Machine$integer.max){
+  if (length(mu) * n.mc > .Machine$integer.max) {
     n.mc <- 1e6
     warning(paste("n.mc is too large. It is reset to", n.mc))
   }
   # This line sets the plot margins and other plot parameters
-  if(plot){
-    op <- par(mar = c(7, 4, 7, 4) + 0.1, xpd=TRUE, ask=FALSE)
+  if (plot) {
+    op <- par(mar = c(7, 4, 7, 4) + 0.1, xpd = TRUE, ask = FALSE)
   }
 
-  if(type %in% c("mc", "MC")) res <- confintMC(mu=mu, Sigma=Sigma, quant=quant, alpha=alpha, plot=plot, plotCI=plotCI, n.mc = n.mc, H0=H0, mu0=mu0, Sigma0=Sigma0,... )
-  if(type %in% c("asymp", "Asymp")) res <- confintAsymp(mu=mu, Sigma=Sigma, quant=quant, alpha=alpha, plot=plot, plotCI=plotCI )
-  if(type %in% "all") {
-    res1 <- confintMC(mu=mu, Sigma=Sigma, quant=quant, type=type, alpha=alpha, plot=plot, plotCI=plotCI, n.mc = n.mc)
-    res2 <- confintAsymp(mu=mu, Sigma=Sigma, quant=quant, type=type, alpha=alpha, plot=plot, plotCI=plotCI)
-    res <- list(MC=res1, Asymptotic=res2)
-    }
-  if(plot) {
-    #par(mar = c(5, 4, 4, 2) + 0.1, xpd=FALSE)
+  if (type %in% c("mc", "MC")) {
+    res <- confintMC(
+      mu = mu,
+      Sigma = Sigma,
+      quant = quant,
+      alpha = alpha,
+      plot = plot,
+      plotCI = plotCI,
+      n.mc = n.mc,
+      H0 = H0,
+      mu0 = mu0,
+      Sigma0 = Sigma0,
+      ...
+    )
+  }
+  if (type %in% c("asymp", "Asymp")) {
+    res <- confintAsymp(
+      mu = mu,
+      Sigma = Sigma,
+      quant = quant,
+      alpha = alpha,
+      plot = plot,
+      plotCI = plotCI
+    )
+  }
+  if (type %in% "all") {
+    res1 <- confintMC(
+      mu = mu,
+      Sigma = Sigma,
+      quant = quant,
+      type = type,
+      alpha = alpha,
+      plot = plot,
+      plotCI = plotCI,
+      n.mc = n.mc
+    )
+    res2 <- confintAsymp(
+      mu = mu,
+      Sigma = Sigma,
+      quant = quant,
+      type = type,
+      alpha = alpha,
+      plot = plot,
+      plotCI = plotCI
+    )
+    res <- list(MC = res1, Asymptotic = res2)
+  }
+  if (plot) {
+    # par(mar = c(5, 4, 4, 2) + 0.1, xpd=FALSE)
     par(op)
-}
+  }
   return(res)
 }
-

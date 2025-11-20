@@ -31,9 +31,9 @@ mbco(
 
 \item{checkSE}{if 'No' (default), the standard errors would not be calculated.}
 
-\item{optim}{Choose optimizer available in OpenMx. The default optimizer is "SLSQP". Other optimizer choices are available. See \link{mxOption} for more details.}
+\item{optim}{Choose optimizer available in OpenMx. The default optimizer is "SLSQP". Other optimizer choices are available. See \link[OpenMx]{mxOption} for more details.}
 
-\item{precision}{Functional precision. The default value is set to 1e-9. See \link{mxOption} for more details.}
+\item{precision}{Functional precision. The default value is set to 1e-9. See \link[OpenMx]{mxOption} for more details.}
 }
 \value{
 A \link{list} that contains \item{chisq}{asymptotic chi-squared test statistic value} \item{\code{df}}{chi-squared df} \item{p}{chi-squared p-value computed based on the method specified by the argument \code{type}}
@@ -46,11 +46,11 @@ data(memory_exp)
 memory_exp$x <- as.numeric(memory_exp$x)-1 # manually creating dummy codes
 endVar <- c('x', 'repetition', 'imagery', 'recall')
 manifests <- c('x', 'repetition', 'imagery', 'recall')
-full_model <- mxModel(
+full_model <- OpenMx::mxModel(
  "memory_example",
  type = "RAM",
  manifestVars = manifests,
- mxPath(
+ OpenMx::mxPath(
    from = "x",
    to = endVar,
    arrows = 1,
@@ -58,7 +58,7 @@ full_model <- mxModel(
    values = .2,
    labels = c("a1", "a2", "cp")
  ),
- mxPath(
+ OpenMx::mxPath(
    from = 'repetition',
   to = 'recall',
   arrows = 1,
@@ -66,7 +66,7 @@ full_model <- mxModel(
    values = .2,
    labels = 'b1'
  ),
- mxPath(
+ OpenMx::mxPath(
    from = 'imagery',
  to = 'recall',
  arrows = 1,
@@ -74,39 +74,34 @@ full_model <- mxModel(
  values = .2,
  labels = "b2"
 ),
-mxPath(
+OpenMx::mxPath(
  from = manifests,
  arrows = 2,
  free = TRUE,
  values = .8
 ),
-mxPath(
+OpenMx::mxPath(
  from = "one",
  to = endVar,
  arrows = 1,
  free = TRUE,
  values = .1
 ),
-mxAlgebra(a1 * b1, name = "ind1"),
-mxAlgebra(a2 * b2, name = "ind2"),
-mxCI("ind1", type = "both"),
-mxCI("ind2", type = "both"),
-mxData(observed = memory_exp, type = "raw")
+OpenMx::mxAlgebra(a1 * b1, name = "ind1"),
+OpenMx::mxAlgebra(a2 * b2, name = "ind2"),
+OpenMx::mxCI("ind1", type = "both"),
+OpenMx::mxCI("ind2", type = "both"),
+OpenMx::mxData(observed = memory_exp, type = "raw")
 )
 ## Reduced  Model for indirect effect: a1*b1
-null_model1 <- mxModel(
+null_model1 <- OpenMx::mxModel(
 model= full_model,
 name = "Null Model 1",
-mxConstraint(ind1 == 0, name = "ind1_eq0_constr")
+OpenMx::mxConstraint(ind1 == 0, name = "ind1_eq0_constr")
 )
-full_model <- mxTryHard(full_model, checkHess=FALSE, silent = TRUE )
-null_model1 <- mxTryHard(null_model1, checkHess=FALSE, silent = TRUE )
+full_model <- OpenMx::mxTryHard(full_model, checkHess=FALSE, silent = TRUE )
+null_model1 <- OpenMx::mxTryHard(null_model1, checkHess=FALSE, silent = TRUE )
 mbco(null_model1,full_model)
-}
-\references{
-Tofighi, D., & Kelley, K. (2020). Indirect effects in sequential mediation models: Evaluating methods for hypothesis testing and confidence interval formation. \emph{Multivariate Behavioral Research}, \bold{55}, 188–210. \doi{https://doi.org/10.1080/00273171.2019.1618545}
-
-Tofighi, D. (2020). Bootstrap Model-Based Constrained Optimization Tests of Indirect Effects. \emph{Frontiers in Psychology}, \bold{10}, 2989. \doi{https://doi.org/10.3389/fpsyg.2019.02989}
 }
 \author{
 Davood Tofighi \email{dtofighi@gmail.com}

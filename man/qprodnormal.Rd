@@ -64,12 +64,16 @@ Meeker and Escobar, 1994). For \code{type="MC"}, the error refers to the
 Monte Carlo error.
 }
 \examples{
-##lower tail
-qprodnormal(p=.1, mu.x=.5, mu.y=.3, se.x=1, se.y=1, rho=0,
-lower.tail = TRUE, type="all")
-##upper tail
-qprodnormal(p=.1, mu.x=.5, mu.y=.3, se.x=1, se.y=1, rho=0,
-lower.tail = FALSE, type="all")
+## lower tail
+qprodnormal(
+  p = .1, mu.x = .5, mu.y = .3, se.x = 1, se.y = 1, rho = 0,
+  lower.tail = TRUE, type = "all"
+)
+## upper tail
+qprodnormal(
+  p = .1, mu.x = .5, mu.y = .3, se.x = 1, se.y = 1, rho = 0,
+  lower.tail = FALSE, type = "all"
+)
 }
 \references{
 Tofighi, D. and MacKinnon, D. P. (2011). RMediation: An R

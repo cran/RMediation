@@ -17,4 +17,3 @@
 #' @references MacKinnon, D. P., Valente, M. J., & Wurpts, I. C. (2018). Benchmark validation of statistical models: Application to mediation analysis of imagery and memory. Psychological Methods, 23, 654–671. \doi{https://doi.org/10.1037/met0000174}
 #' @source \doi{http://dx.doi.org/10.1037/met0000174.supp}
 "memory_exp"
-
