@@ -1,4 +1,4 @@
-confintMC <- function(mu, Sigma, quant = NULL, alpha = 0.05, type = "MC", plot = FALSE, plotCI = FALSE, n.mc = 1e+06, H0 = FALSE, mu0, Sigma0, ...) {
+confintMC <- function(mu, Sigma, quant = NULL, alpha = 0.05, type = "MC", plot = FALSE, plotCI = FALSE, n.mc = 1e5, H0 = FALSE, mu0, Sigma0, ...) {
   q1 <- quant
   quant <- parse(text = sub("~", "", quant))
   df <- data.frame(MASS::mvrnorm(n.mc, mu, Sigma))
@@ -99,8 +99,8 @@ confintMC <- function(mu, Sigma, quant = NULL, alpha = 0.05, type = "MC", plot =
 
       mtext(paste("P Value=", round(pMinH0, 4)), side = 3, line = -1, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
 
-      mtext(paste("Kurtosis=", round(e1071::kurtosis(H0quant.vec, type = 2), 3)), side = 3, line = 0, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
-      mtext(paste("Skewness=", round(e1071::skewness(H0quant.vec, type = 2), 3)), side = 3, line = 1, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
+      mtext(paste("Kurtosis=", round(.kurtosis(H0quant.vec, type = 2), 3)), side = 3, line = 0, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
+      mtext(paste("Skewness=", round(.skewness(H0quant.vec, type = 2), 3)), side = 3, line = 1, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
       mtext(paste("Critical Value=", round(H0CI[1], 3)), side = 3, line = 2, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
       mtext(paste("Critical Value=", round(H0CI[2], 3)), side = 3, line = 3, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue")
       mtext(paste("H0:", quant, "=0"), side = 3, line = 4, outer = outer, at = max1 - 1 * (max1 - min1) / 9, cex = mcex, adj = 0, col = "blue", font = 2)
@@ -112,8 +112,8 @@ confintMC <- function(mu, Sigma, quant = NULL, alpha = 0.05, type = "MC", plot =
     if (type %in% c("mc", "MC")) {
       # New- 1/24/14-DT
       mtext(paste("P Value=", round(pMinH1, 4)), side = 3, line = -1, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
-      mtext(paste("Kurtosis=", round(kurtosis(quant.vec, type = 2), 3)), side = 3, line = 0, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
-      mtext(paste("Skewness=", round(e1071::skewness(quant.vec, type = 2), 3)), side = 3, line = 1, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
+      mtext(paste("Kurtosis=", round(.kurtosis(quant.vec, type = 2), 3)), side = 3, line = 0, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
+      mtext(paste("Skewness=", round(.skewness(quant.vec, type = 2), 3)), side = 3, line = 1, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
       mtext(paste("LL=", round(CI[1], 3)), side = 3, line = 2, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
       mtext(paste("UL=", round(CI[2], 3)), side = 3, line = 3, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
       mtext("Monte Carlo CI", side = 3, line = 4, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, font = 2, adj = 0)
@@ -121,8 +121,8 @@ confintMC <- function(mu, Sigma, quant = NULL, alpha = 0.05, type = "MC", plot =
 
     if (type == "all") {
       # New- 1/24/14-DT
-      mtext(paste("Kurtosis=", round(kurtosis(quant.vec, type = 2), 3)), side = 3, line = 1, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
-      mtext(paste("Skewness=", round(e1071::skewness(quant.vec, type = 2), 3)), side = 3, line = 2, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
+      mtext(paste("Kurtosis=", round(.kurtosis(quant.vec, type = 2), 3)), side = 3, line = 1, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
+      mtext(paste("Skewness=", round(.skewness(quant.vec, type = 2), 3)), side = 3, line = 2, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
       mtext(paste("LL=", round(CI[1], 3)), side = 3, line = 3, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
       mtext(paste("UL=", round(CI[2], 3)), side = 3, line = 4, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)
       mtext("Monte Carlo", side = 3, line = 5, outer = outer, at = max1 - 3 * (max1 - min1) / 9, cex = mcex, adj = 0)

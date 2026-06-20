@@ -11,11 +11,11 @@
 #' @param rho correlation between \eqn{x} and \eqn{y}, where -1 <\code{rho} < 1.
 #'   The default value is 0.
 #' @param lower.tail logical; if \code{TRUE} (default), the probability is
-#'   \eqn{P[X*Y < q]}; otherwise, \eqn{P[X*Y > q]}
+#'   \eqn{P(XY \le q)}; otherwise, \eqn{P(XY > q)}
 #' @param type method used to compute confidence interval. It takes on the
 #'   values \code{"dop"} (default), \code{"MC"}, \code{"asymp"} or \code{"all"}
-#' @param n.mc when \code{type="MC"}, \code{n.mc} determines the sample size for
-#'   the Monte Carlo method. The default sample size is 1E5.
+#' @param n.mc Monte Carlo sample size when \code{type="MC"} (default: 1e5).
+#'   Larger values provide more precision but take longer to compute.
 #' @details    This function returns the percentile (probability) and the
 #'   associated error for the distribution of product of mediated effect (two
 #'   normal random variables). To obtain a percentile using a specific method,

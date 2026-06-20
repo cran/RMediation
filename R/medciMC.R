@@ -1,5 +1,5 @@
 medciMC <-
-  function(mu.x, mu.y, se.x, se.y, rho = 0, alpha = .05, n.mc = 1e7) {
+  function(mu.x, mu.y, se.x, se.y, rho = 0, alpha = .05, n.mc = 1e5) {
     mean.v <- c(mu.x, mu.y)
     var.mat <- matrix(c(se.x^2, se.x * se.y * rho, se.x * se.y * rho, se.y^2), 2)
     a_b <- matrix(rnorm(2 * n.mc), ncol = n.mc)

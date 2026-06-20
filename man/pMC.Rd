@@ -4,7 +4,7 @@
 \alias{pMC}
 \title{Probability (percentile) for the Monte Carlo Sampling Distribution of a nonlinear function of coefficients estimates}
 \usage{
-pMC(q, mu, Sigma, quant, lower.tail = TRUE, n.mc = 1e+06, ...)
+pMC(q, mu, Sigma, quant, lower.tail = TRUE, n.mc = 1e+05, ...)
 }
 \arguments{
 \item{q}{quantile}
@@ -17,7 +17,8 @@ pMC(q, mu, Sigma, quant, lower.tail = TRUE, n.mc = 1e+06, ...)
 
 \item{lower.tail}{logical; if \code{TRUE} (default), the probability is \eqn{P[quant < q]}; otherwise, \eqn{P[quant > q]}}
 
-\item{n.mc}{Monte Carlo sample size. The default sample size is 1e+6.}
+\item{n.mc}{Monte Carlo sample size (default: 1e5). Larger values provide
+more precision but take longer to compute.}
 
 \item{...}{additional arguments.}
 }

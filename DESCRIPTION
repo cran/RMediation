@@ -1,8 +1,8 @@
 Package: RMediation
 Type: Package
 Title: Mediation Analysis Confidence Intervals
-Version: 1.3.0
-Date: 2025-11-18
+Version: 1.5.0
+Date: 2026-06-18
 Author: Davood Tofighi [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-8523-7776>)
 Maintainer: Davood Tofighi <dtofighi@gmail.com>
@@ -12,7 +12,8 @@ Authors@R: person("Davood", "Tofighi",
     comment = c(ORCID = "0000-0001-8523-7776"))
 Description: Computes confidence intervals for nonlinear functions of model 
     parameters (e.g., product of k coefficients) in single-level and multilevel 
-    structural equation models. Methods include the distribution of the product, 
+    structural equation
+     models. Methods include the distribution of the product, 
     Monte Carlo simulation, and bootstrap methods. It also performs the Model-Based 
     Constrained Optimization (MBCO) procedure for hypothesis testing of indirect 
     effects.
@@ -29,16 +30,18 @@ License: GPL (>= 3) | file LICENSE
 URL: https://data-wise.github.io/rmediation/,
         https://github.com/data-wise/rmediation
 BugReports: https://github.com/data-wise/rmediation/issues
-Depends: R (>= 4.1.0), base (>= 4.1.0), stats (>= 4.1.0)
-Imports: graphics (>= 4.1.0), lavaan (>= 0.5-20), e1071 (>= 1.6-7),
-        OpenMx (>= 2.13), grDevices (>= 4.1.0), MASS (>= 7.3), modelr
-        (>= 0.1.8), generics (>= 0.0.2), checkmate (>= 2.1.0)
-Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Depends: R (>= 4.1.0)
+Imports: checkmate (>= 2.1.0), graphics (>= 4.1.0), grDevices (>=
+        4.1.0), lavaan (>= 0.5-20), MASS (>= 7.3), methods, S7
+Suggests: knitr, medfit (>= 0.2.0), OpenMx (>= 2.13), rmarkdown,
+        testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/Needs/website: pkgdown, quarto
 NeedsCompilation: no
-Packaged: 2025-11-19 23:07:28 UTC; dt
+Packaged: 2026-06-19 18:09:15 UTC; dt
 Repository: CRAN
-Date/Publication: 2025-11-20 10:20:19 UTC
+Date/Publication: 2026-06-20 02:40:02 UTC

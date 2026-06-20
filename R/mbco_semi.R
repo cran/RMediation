@@ -38,7 +38,7 @@ mbco_semi <- function(h0 = NULL,
   df_trans <- as.matrix(df) %*% US_inv %*% USigma0
   df_trans <- data.frame(df_trans)
   compare_boot <- function(x, df) {
-    df <- modelr::resample_bootstrap(df)
+    df <- .resample_bootstrap(df)
     df <- data.frame(df)
     h0 <-
       OpenMx::mxRun(

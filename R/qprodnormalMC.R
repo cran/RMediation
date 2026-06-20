@@ -1,4 +1,4 @@
-qprodnormalMC <- function(p, mu.x, mu.y, se.x, se.y, rho = 0, lower.tail = TRUE, n.mc = 1e7) {
+qprodnormalMC <- function(p, mu.x, mu.y, se.x, se.y, rho = 0, lower.tail = TRUE, n.mc = 1e5) {
   if (!lower.tail) {
     p <- 1 - p
   }

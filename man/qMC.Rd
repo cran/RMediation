@@ -4,7 +4,7 @@
 \alias{qMC}
 \title{Quantile for the Monte Carlo Sampling Distribution of a nonlinear function of coefficients estimates}
 \usage{
-qMC(p, mu, Sigma, quant, n.mc = 1e+06, ...)
+qMC(p, mu, Sigma, quant, n.mc = 1e+05, ...)
 }
 \arguments{
 \item{p}{probability.}
@@ -15,7 +15,8 @@ qMC(p, mu, Sigma, quant, n.mc = 1e+06, ...)
 
 \item{quant}{quantity of interest, which is a nonlinear/linear function of the model parameters. Argument \code{quant} is a \link{formula} that \strong{must} start with the symbol "tilde" (\code{~}): e.g., \code{~b1*b2*b3*b4}. The names of coefficients must conform to the names provided in the argument \code{mu} or to the default names, i.e., \code{b1,b2,...}.}
 
-\item{n.mc}{Monte Carlo sample size. The default sample size is 1e+6.}
+\item{n.mc}{Monte Carlo sample size (default: 1e5). Larger values provide
+more precision but take longer to compute.}
 
 \item{...}{additional arguments.}
 }

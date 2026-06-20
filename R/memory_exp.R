@@ -5,10 +5,10 @@
 #' @format A data frame with 369 rows and 5 variables:
 #' \describe{
 #'   \item{study}{Replication ID, ranges from 1 to 8}
-#'   \item{repetition}{Use of repetition rehearsal technique on a 1 to 9 scale}
-#'   \item{recall}{Total words recalled out of 20 words}
+#'   \item{repetition}{Use of repetition rehearsal technique, ranges from 1 to 12}
+#'   \item{recall}{Total words recalled out of 20 words, ranges from 3 to 20}
 #'   \item{imagery}{Use of imagery rehearsal technique on a 1 to 9 scale}
-#'   \item{x}{A \link{factor} with two levels: repetition or primary rehearsal = 0, imagery or secondary rehearsal = 1}
+#'   \item{x}{A \link{factor} with two levels: "repetition" (primary rehearsal) or "imagery" (secondary rehearsal)}
 #' }
 #' @usage data(memory_exp)
 #' @docType data

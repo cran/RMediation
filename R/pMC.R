@@ -7,7 +7,8 @@
 #' @param Sigma either a covariance matrix or a \link{vector} that stacks all the columns of the lower triangle variance--covariance matrix one underneath the other.
 #' @param quant quantity of interest, which is a nonlinear/linear function of the model parameters. Argument \code{quant} is a \link{formula} that \strong{must} start with the symbol "tilde" (\code{~}): e.g., \code{~b1*b2*b3*b4}. The names of coefficients must conform to the names provided in the argument \code{mu} or to the default names, i.e., \code{b1,b2,...}.
 #' @param lower.tail logical; if \code{TRUE} (default), the probability is \eqn{P[quant < q]}; otherwise, \eqn{P[quant > q]}
-#' @param n.mc Monte Carlo sample size. The default sample size is 1e+6.
+#' @param n.mc Monte Carlo sample size (default: 1e5). Larger values provide
+#'   more precision but take longer to compute.
 #' @param ... additional arguments.
 #' @return scalar probability value.
 #' @keywords regression distribution
@@ -23,7 +24,7 @@
 #' @references  Tofighi, D. and MacKinnon, D. P. (2011). RMediation: An R package for mediation analysis confidence intervals. \emph{Behavior Research Methods}, \bold{43}, 692--700. doi:10.3758/s13428-011-0076-x
 #' @importFrom checkmate assert_numeric assert_formula assert_logical assert_count assert
 #' @export
-pMC <- function(q, mu, Sigma, quant, lower.tail = TRUE, n.mc = 1e+06, ...) {
+pMC <- function(q, mu, Sigma, quant, lower.tail = TRUE, n.mc = 1e5, ...) {
   # Input validation
   checkmate::assert_numeric(q, finite = TRUE, len = 1)
   checkmate::assert_numeric(mu, finite = TRUE)
